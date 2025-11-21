@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم‌های اطلاعات مدیریت (MIS) | Management Information Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --dark-bg: #000000;
+            --light-bg: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-bg-hover: rgba(255, 255, 255, 0.05);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-bg: linear-gradient(135deg, #000000 0%, #0a0a0f 25%, #0f0f1a 50%, #0a0a0f 75%, #000000 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            --shadow-hover: 0 20px 40px rgba(102, 126, 234, 0.3);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Vazir Font Face */
+        @font-face {
+            font-family: 'Vazir';
+            src: url('vazir-font-v16.1.0/Vazir.woff2') format('woff2'),
+                 url('vazir-font-v16.1.0/Vazir.woff') format('woff'),
+                 url('vazir-font-v16.1.0/Vazir.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Vazir';
+            src: url('vazir-font-v16.1.0/Vazir-Light.woff2') format('woff2'),
+                 url('vazir-font-v16.1.0/Vazir-Light.woff') format('woff'),
+                 url('vazir-font-v16.1.0/Vazir-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Vazir';
+            src: url('vazir-font-v16.1.0/Vazir-Medium.woff2') format('woff2'),
+                 url('vazir-font-v16.1.0/Vazir-Medium.woff') format('woff'),
+                 url('vazir-font-v16.1.0/Vazir-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Vazir';
+            src: url('vazir-font-v16.1.0/Vazir-Bold.woff2') format('woff2'),
+                 url('vazir-font-v16.1.0/Vazir-Bold.woff') format('woff'),
+                 url('vazir-font-v16.1.0/Vazir-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient-bg);
+            background-attachment: fixed;
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(79, 172, 254, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            color: #a5b4fc;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            will-change: auto;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 50%, rgba(0,0,0,0.2) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 2px 20px rgba(102, 126, 234, 0.3);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            color: #e0e7ff;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 400;
+        }
+
+        .hero .authors {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #c7d2fe;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .authors p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) translateZ(0);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateZ(0);
+            }
+        }
+
+        /* Disable animations on mobile for better performance */
+        @media (max-width: 768px) {
+            .hero h1,
+            .hero p,
+            .hero .authors {
+                animation: none;
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section */
+        section {
+            padding: 5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        section:not(.hero) {
+            background: transparent;
+        }
+
+        #ecommerce .section-title {
+            color: #e2e8f0 !important;
+        }
+
+        #ecommerce .card {
+            color: #e2e8f0 !important;
+        }
+
+        #ecommerce .card h3 {
+            color: #a5b4fc !important;
+        }
+
+        #ecommerce .card h4 {
+            color: #c7d2fe !important;
+        }
+
+        #ecommerce .card p {
+            color: var(--text-secondary) !important;
+        }
+
+        #ecommerce .feature-card {
+            color: #e2e8f0 !important;
+        }
+
+        #ecommerce .feature-card h4 {
+            color: #c7d2fe !important;
+        }
+
+        #ecommerce .feature-card p {
+            color: var(--text-secondary) !important;
+        }
+
+        #ecommerce .feature-card li {
+            color: var(--text-secondary) !important;
+        }
+
+        #ecommerce .model-card {
+            color: white !important;
+        }
+
+        #ecommerce .highlight-box {
+            color: #e2e8f0 !important;
+        }
+
+        #ecommerce .highlight-box h4 {
+            color: #a5b4fc !important;
+        }
+
+        #ecommerce .highlight-box p {
+            color: var(--text-secondary) !important;
+        }
+
+        #ecommerce .highlight-box li {
+            color: var(--text-secondary) !important;
+        }
+
+        #ecommerce .timeline-item {
+            color: #e2e8f0 !important;
+        }
+
+        #ecommerce .timeline-item h4 {
+            color: #c7d2fe !important;
+        }
+
+        #ecommerce .timeline-item p {
+            color: var(--text-secondary) !important;
+        }
+
+        #ecommerce .badge {
+            color: white !important;
+        }
+
+        #ecommerce ul li {
+            color: var(--text-secondary) !important;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 1rem;
+            color: #e2e8f0;
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            background: var(--card-bg-hover);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card h3::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 2;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--glass-border);
+            border-top: 4px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:nth-child(1) {
+            border-top-color: #667eea;
+        }
+
+        .feature-card:nth-child(2) {
+            border-top-color: #f5576c;
+        }
+
+        .feature-card:nth-child(3) {
+            border-top-color: #4facfe;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(102, 126, 234, 0.4);
+            background: var(--card-bg-hover);
+        }
+
+        .feature-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #c7d2fe;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-right: 1.5rem;
+        }
+
+        .feature-card li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .feature-card li::before {
+            content: '✓';
+            position: absolute;
+            right: -1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--gradient-1);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-card .number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Model Grid */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .model-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .model-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .model-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            margin-right: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            border: 1px solid var(--glass-border);
+            border-right: 4px solid var(--primary-color);
+            transition: all 0.4s;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -12px;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            border: 4px solid var(--dark-bg);
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0.3rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-top: 1px solid var(--glass-border);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            opacity: 0.8;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile-First: Base styles optimized for mobile */
+        body {
+            font-size: 16px;
+        }
+
+        .container {
+            padding: 0 1rem;
+        }
+
+        /* Navigation - Mobile Optimized */
+        nav {
+            padding: 0.75rem 0;
+        }
+
+        nav .container {
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        nav .logo {
+            font-size: 1.25rem;
+            z-index: 1001;
+        }
+
+        nav ul {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            flex-direction: column;
+            padding: 1.5rem 1rem;
+            gap: 0.75rem;
+            border-top: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav ul.active {
+            display: flex;
+        }
+
+        nav a {
+            display: block;
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-align: right;
+            transition: all 0.3s;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        nav a:hover,
+        nav a:active {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateX(-5px);
+            color: #a5b4fc;
+        }
+
+        nav a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.2);
+            border: 2px solid rgba(102, 126, 234, 0.4);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 48px;
+            min-height: 48px;
+        }
+
+        .menu-toggle:hover,
+        .menu-toggle:active {
+            background: rgba(102, 126, 234, 0.4);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .menu-toggle:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Hero - Mobile Optimized */
+        .hero {
+            margin-top: 60px;
+            padding: 4rem 1.5rem;
+            min-height: auto;
+            overflow: visible;
+        }
+
+        .hero::before {
+            animation: none;
+            transform: none;
+            will-change: auto;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: auto;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            line-height: 1.6;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .hero .authors {
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .hero .authors p {
+            font-size: 0.9rem;
+            margin: 0.4rem 0;
+        }
+
+        /* Sections - Mobile */
+        section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            line-height: 1.4;
+        }
+
+        /* Cards - Mobile Optimized */
+        .card {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Feature Grid - Mobile */
+        .feature-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p,
+        .feature-card li {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* Stats Grid - Mobile */
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+        }
+
+        /* Model Grid - Mobile */
+        .model-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .model-card {
+            padding: 1.25rem;
+            border-radius: 12px;
+        }
+
+        .model-card h4 {
+            font-size: 1.1rem;
+        }
+
+        .model-card p {
+            font-size: 0.85rem;
+        }
+
+        /* Timeline - Mobile */
+        .timeline-item {
+            padding: 1.5rem;
+            margin-right: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .timeline-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-item p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* Highlight Box - Mobile */
+        .highlight-box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+        }
+
+        .highlight-box h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .highlight-box p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* Badge - Mobile */
+        .badge {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+            display: inline-block;
+        }
+
+        /* Footer - Mobile */
+        footer {
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Touch-friendly improvements */
+        a, button, .card, .feature-card, .model-card, .stat-card, .model-card {
+            -webkit-tap-highlight-color: rgba(102, 126, 234, 0.3);
+            touch-action: manipulation;
+        }
+
+        /* Prevent text selection on tap (mobile) */
+        @media (max-width: 768px) {
+            .card, .feature-card, .stat-card, .model-card {
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        }
+
+        /* Better spacing for mobile */
+        @media (max-width: 768px) {
+            * {
+                -webkit-tap-highlight-color: rgba(102, 126, 234, 0.2);
+            }
+
+            body {
+                padding-bottom: 2rem;
+            }
+        }
+
+        /* Better scrolling on mobile */
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Tablet and up */
+        @media (min-width: 481px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .model-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop - Only apply desktop styles on larger screens */
+        @media (min-width: 769px) {
+            body {
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 0 2rem;
+            }
+
+            nav ul {
+                display: flex !important;
+                position: static;
+                width: auto;
+                background: transparent;
+                backdrop-filter: none;
+                flex-direction: row;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            nav a {
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+            }
+
+            .hero {
+                padding: 6rem 2rem;
+            }
+
+            .hero::before {
+                animation: none;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            section {
+                padding: 5rem 0;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .card {
+                padding: 2.5rem;
+            }
+
+            .card h3 {
+                font-size: 1.8rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .model-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1200px;
+            }
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        /* Only apply fade-in animation if not directly navigated to */
+        .fade-in:not(.force-visible) {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in.visible,
+        .fade-in.force-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(102, 126, 234, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-right: 4px solid var(--primary-color);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-1);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .highlight-box h4 {
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .highlight-box p {
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">MIS</div>
+            <button class="menu-toggle" aria-label="منوی اصلی">☰</button>
+            <ul id="nav-menu">
+                <li><a href="#big-data">کلان‌داده</a></li>
+                <li><a href="#dashboards">داشبورد</a></li>
+                <li><a href="#ecommerce">تجارت الکترونیک</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>سیستم‌های اطلاعات مدیریت</h1>
+            <p>Management Information Systems (MIS)</p>
+            <div class="authors">
+                <p>علی آزادی و نیما نجف پور</p>
+                <p>استاد: سید محمد امین احمدی</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Big Data Section -->
+    <section id="big-data" class="fade-in force-visible">
+        <div class="container">
+            <h2 class="section-title">فصل سیزدهم: کلان‌داده (Big Data)</h2>
+            
+            <div class="card">
+                <h3>کلان‌داده چیست؟</h3>
+                <p>کلان‌داده مجموعه‌ای از داده‌های حجیم، پیچیده و پویا است که با روش‌های سنتی قابل مدیریت نیستند. این داده‌ها از منابع مختلفی مانند شبکه‌های اجتماعی، حسگرها، تراکنش‌های مالی و بسیاری از منابع دیگر تولید می‌شوند.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>حجم (Volume)</h4>
+                    <p>حجم بالای داده‌ها که از ترابایت تا پتابایت و بیشتر را شامل می‌شود. این حجم عظیم نیازمند زیرساخت‌های قدرتمند برای ذخیره‌سازی و پردازش است.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>سرعت (Velocity)</h4>
+                    <p>سرعت جریان داده‌ها که به صورت لحظه‌ای و مداوم تولید می‌شوند. پردازش این داده‌ها نیازمند سیستم‌های سریع و کارآمد است.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>تنوع (Variety)</h4>
+                    <p>تنوع در نوع داده‌ها شامل متن، ویدئو، صوت، تصویر، GPS و انواع مختلف داده‌های ساختاریافته و غیرساختاریافته.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>شبکه‌های اجتماعی و تولید کلان‌داده</h3>
+                <p>شبکه‌های اجتماعی با میلیاردها کاربر فعال، هر ثانیه حجم عظیمی از داده تولید می‌کنند. از جستجوها و بازدیدها تا لایک‌ها، کامنت‌ها، انتشار عکس و ویدئو - همه این فعالیت‌ها داده تولید می‌کنند که باید طبقه‌بندی و پردازش شوند.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">571M</div>
+                        <div class="label">کاربر Facebook (2012)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">347M</div>
+                        <div class="label">تصویر Instagram</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">684K</div>
+                        <div class="label">ساعت ویدئو YouTube/روز</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>کاربردهای کلان‌داده</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>نجوم</h4>
+                        <p>پیش‌بینی حرکت اجرام آسمانی و تحلیل داده‌های تلسکوپ‌ها</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>شرکت‌های تولیدی</h4>
+                        <p>تحلیل محصولات و بهینه‌سازی فرآیندهای تولید</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>شرکت‌های IT</h4>
+                        <p>استفاده از تجربه کاربران برای بهبود محصولات</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>دولت‌ها</h4>
+                        <p>مردم‌شناسی و برنامه‌ریزی شهری</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>فروشگاه‌ها</h4>
+                        <p>پیشنهاد محصولات بر اساس رفتار مشتری</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>هواشناسی</h4>
+                        <p>پیش‌بینی دقیق‌تر وضعیت هوا</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>آمار تولید داده در هر دقیقه (2012)</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">571</div>
+                        <div class="label">وب‌سایت جدید</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">274M</div>
+                        <div class="label">ایمیل ارسال شده</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">2M+</div>
+                        <div class="label">جستجوی گوگل</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">684K</div>
+                        <div class="label">اشتراک‌گذاری فیسبوک</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>آمار تولید داده در هر دقیقه (2015)</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">50K</div>
+                        <div class="label">دانلود اپ استور</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">7.6M</div>
+                        <div class="label">لایک فیسبوک</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">347K</div>
+                        <div class="label">توییت</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">300</div>
+                        <div class="label">ساعت ویدئو یوتیوب</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>۷ روند غالب تکنولوژی در سال ۲۰۱۷</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>اینترنت اشیا</h4>
+                        <p>IoT & Smart Home</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>واقعیت مجازی</h4>
+                        <p>Virtual Reality</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>یادگیری ماشین</h4>
+                        <p>Machine Learning</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>اتوماسیون</h4>
+                        <p>Automation</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>کلان‌داده کیفی</h4>
+                        <p>Quality Big Data</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>یکپارچگی دیجیتالی</h4>
+                        <p>Digital Integration</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>همه‌چیز در لحظه</h4>
+                        <p>Everything On Demand</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>همگرایی اینترنت اشیا و کلان‌داده</h4>
+                <p>هر چه تعداد اشیای متصل به وب افزایش یابد، منابع در دسترس شرکت‌ها برای استخراج اطلاعات از داده‌ها افزایش پیدا خواهد کرد. این تکنولوژی‌ها اطلاعات رفتاری، محیطی و شخصی تولید می‌کنند و دنیای بازاریابی را طلایی می‌کنند.</p>
+                <p><strong>نتیجه:</strong> افزایش اشیای متصل = افزایش منابع داده</p>
+            </div>
+
+            <div class="card">
+                <h3>۸ موضوع داغ Big Data در ۲۰۱۶</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+                    <span class="badge">پادشاهی NoSQL</span>
+                    <span class="badge">Apache Spark</span>
+                    <span class="badge">تکامل Hadoop</span>
+                    <span class="badge">کاربرد Big Data در کسب‌وکار</span>
+                    <span class="badge">افزایش سرعت کلان‌داده</span>
+                    <span class="badge">ابزارهای کاوش داده</span>
+                    <span class="badge">انباره‌های داده موازی</span>
+                    <span class="badge">همگرایی IoT و Cloud</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>۱۰ فناوری برتر تأثیرگذار در ۱۵ سال آینده</h3>
+                <div class="model-grid">
+                    <div class="model-card">پرینت سه‌بعدی</div>
+                    <div class="model-card">اینترنت اشیا</div>
+                    <div class="model-card">ذخیره انرژی</div>
+                    <div class="model-card">ماهواره‌های میکرو</div>
+                    <div class="model-card">هوش مصنوعی</div>
+                    <div class="model-card">مواد نانو</div>
+                    <div class="model-card">تحلیل Big Data</div>
+                    <div class="model-card">فناوری‌های عصبی</div>
+                    <div class="model-card">بلاک‌چین</div>
+                    <div class="model-card">بیولوژی سنتتیک</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboards Section -->
+    <section id="dashboards" class="fade-in">
+        <div class="container">
+            <h2 class="section-title">فصل چهاردهم: داشبوردهای مدیریتی</h2>
+            
+            <div class="card">
+                <h3>تعریف داشبورد مدیریتی</h3>
+                <p>یک رابط کاربری گرافیکی است که وضعیت جاری و روند گذشته سازمان را به صورت لحظه‌ای نمایش می‌دهد. معمولاً مبتنی بر وب و متصل به پایگاه داده است و به مدیران امکان نظارت و تصمیم‌گیری سریع را می‌دهد.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>داشبورد استراتژیک</h4>
+                    <ul>
+                        <li>دید کلان سازمان</li>
+                        <li>داده‌های پایدار</li>
+                        <li>گزارش‌های دوره‌ای (روزانه/ماهیانه/فصلی)</li>
+                        <li>مناسب برای مدیران ارشد</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>داشبورد تحلیلی</h4>
+                    <ul>
+                        <li>داده‌های مقایسه‌ای</li>
+                        <li>امکان مشاهده جزئیات</li>
+                        <li>تحلیل عمیق داده‌ها</li>
+                        <li>مناسب برای مدیران میانی</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <h4>داشبورد عملیاتی</h4>
+                    <ul>
+                        <li>برای فعالیت‌های لحظه‌ای</li>
+                        <li>تغییرات سریع</li>
+                        <li>نیازمند پاسخ آنی</li>
+                        <li>نظارت بر عملیات روزانه</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>کاربرد طراحی داشبوردها</h3>
+                <p>برای مدیریت جریان‌های فرایندی، چیدمان و طراحی داشبوردها کمک می‌کند. ابتدا کاربران در یک نمای گرافیکی، فرآیند اصلی را می‌بینند و سپس به اسناد پایین‌تر ارجاع داده می‌شوند. این اسناد معمولاً در سازمان مدفون می‌مانند و مدیران اجرایی به آن‌ها دسترسی ندارند. برای مدیران اجرا، دسترسی سریع به داده‌ها ضروری است.</p>
+            </div>
+
+            <div class="card">
+                <h3>انواع داشبورد از لحاظ تکنولوژی</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>برنامه‌های مستقل</h4>
+                        <p>نرم‌افزارهای نصب‌شده روی سیستم</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>برنامه‌های تحت وب</h4>
+                        <p>دسترسی از طریق مرورگر</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>ویجت‌های رومیزی</h4>
+                        <p>ابزارهای کوچک روی دسکتاپ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>انواع داشبوردهای تخصصی</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+                    <span class="badge">منابع انسانی</span>
+                    <span class="badge">استخدام</span>
+                    <span class="badge">فروش</span>
+                    <span class="badge">عملیات</span>
+                    <span class="badge">امنیت و حراست</span>
+                    <span class="badge">فناوری اطلاعات</span>
+                    <span class="badge">پروژه</span>
+                    <span class="badge">CRM</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>مزایای داشبورد مدیریتی</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>نظارت و کنترل</h4>
+                        <ul>
+                            <li>نظارت ساده بر عملکرد</li>
+                            <li>شناسایی روندهای منفی</li>
+                            <li>دید لحظه‌ای از کل سیستم</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>تحلیل و گزارش</h4>
+                        <ul>
+                            <li>اندازه‌گیری اثربخشی</li>
+                            <li>تولید گزارش‌های جدید</li>
+                            <li>شناسایی داده‌های پرت</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>بهبود عملکرد</h4>
+                        <ul>
+                            <li>تصمیم‌گیری بهتر</li>
+                            <li>هم‌راستایی با اهداف</li>
+                            <li>کاهش زمان گزارش‌گیری</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- E-Commerce Section -->
+    <section id="ecommerce" class="fade-in force-visible">
+        <div class="container">
+            <h2 class="section-title">فصل پانزدهم: تجارت الکترونیک (E-Commerce)</h2>
+            
+            <div class="card">
+                <h3>تعریف تجارت</h3>
+                <p>ارائه خدمات یا اطلاعات، معمولاً در مقابل پول. تجارت از دیرباز به عنوان یکی از ارکان اصلی اقتصاد جوامع بشری بوده است.</p>
+            </div>
+
+            <div class="card">
+                <h3>تعریف تجارت الکترونیک</h3>
+                <p>تمام فرآیندهای بازار که از طریق اینترنت انجام شوند: خرید، فروش، تبادل اطلاعات، پرداخت، خدمات بانکی و بسیاری از فعالیت‌های تجاری دیگر. تجارت الکترونیک انقلابی در نحوه انجام کسب‌وکار ایجاد کرده است.</p>
+            </div>
+
+            <div class="card">
+                <h3>تفاوت تجارت الکترونیک با سنتی</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>تجارت سنتی</h4>
+                        <ul>
+                            <li>ارتباط چهره‌به‌چهره</li>
+                            <li>استفاده از تلفن</li>
+                            <li>مدارک کاغذی</li>
+                            <li>محدودیت مکانی و زمانی</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>تجارت الکترونیک</h4>
+                        <ul>
+                            <li>همه‌چیز از طریق شبکه</li>
+                            <li>دسترسی ۲۴/۷</li>
+                            <li>مدارک دیجیتالی</li>
+                            <li>دسترسی جهانی</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h4>چالش‌های تجارت الکترونیک</h4>
+                    <p>امنیت، اعتماد، و احراز هویت از مهم‌ترین چالش‌های تجارت الکترونیک هستند که امروزه راه‌حل‌های مناسبی برای آن‌ها ارائه شده است.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>مزایای تجارت الکترونیک</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>دسترسی</h4>
+                        <p>حذف محدودیت‌های مکانی و زمانی - دسترسی جهانی به بازارها</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>هزینه</h4>
+                        <p>کاهش هزینه‌ها و کاهش هزینه بازاریابی</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>کارایی</h4>
+                        <p>بهبود مدیریت زنجیره تأمین و سرعت بالاتر</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>مدل‌های تجارت الکترونیکی</h3>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4>B2B</h4>
+                        <p>بنگاه به بنگاه</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>B2C</h4>
+                        <p>بنگاه به مصرف‌کننده</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>C2C</h4>
+                        <p>مصرف‌کننده به مصرف‌کننده</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>B2G</h4>
+                        <p>بنگاه به دولت</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>G2G</h4>
+                        <p>دولت به دولت</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>C2G</h4>
+                        <p>مصرف‌کننده به دولت</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>C2B</h4>
+                        <p>مصرف‌کننده به بنگاه</p>
+                    </div>
+                    <div class="model-card">
+                        <h4>B2E</h4>
+                        <p>بنگاه به کارکنان</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>مثال‌های مدل‌های تجارت الکترونیک</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>B2B - بنگاه به بنگاه</h4>
+                        <p>شرکت تولید خودرو با تأمین‌کننده قطعات. حجم معاملات بالا، تکراری و منظم.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>B2C - بنگاه به مصرف‌کننده</h4>
+                        <p>فروشگاه‌های اینترنتی مانند دیجی‌کالا و آمازون. مزایا: خرید آسان، مقایسه محصولات، قیمت کمتر، تنوع زیاد.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>C2C - مصرف‌کننده به مصرف‌کننده</h4>
+                        <p>پلتفرم‌هایی مانند eBay، شیپور و دیوار. فروش کالاهای نو و دست‌دوم.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>B2G - بنگاه به دولت</h4>
+                        <p>مناقصات، پروژه‌های دولتی، نرم‌افزارهای سازمانی</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>G2G - دولت به دولت</h4>
+                        <p>مثال: تبادل اطلاعات شینگن</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>G2C - دولت به مصرف‌کننده</h4>
+                        <p>پرداخت قبوض، خدمات درمانی، ثبت‌نام دولتی، مالیات. هدف: ساده‌سازی خدمات عمومی</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>تجارت الکترونیک در ایران</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>فروشگاه‌های B2C</h4>
+                        <p>دیجی‌کالا، اکالا، مدیسه، بانی‌مد</p>
+                        <p><strong>تخصصی:</strong> نوریک اپتیک، دیجی‌استایل، بایک، شیکسون</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>فروشگاه‌های C2C</h4>
+                        <p>دیوار، شیپور</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>فروشگاه‌های تخفیف</h4>
+                        <p>نت‌برگ، تخفیفان، آفر‌های روز</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>۱۰ راه موفقیت در تجارت الکترونیک</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>عملکرد فنی</h4>
+                        <ul>
+                            <li>سرعت بالای بارگذاری سایت</li>
+                            <li>قرار دادن مهم‌ترین اطلاعات در بالای صفحه</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>سازماندهی</h4>
+                        <ul>
+                            <li>دسته‌بندی درست محصولات</li>
+                            <li>طراحی ساده صفحه محصول</li>
+                            <li>استفاده از مسیر Breadcrumb</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>طراحی و محتوا</h4>
+                        <ul>
+                            <li>کنترل رنگ‌ها (حداکثر ۳ رنگ اصلی)</li>
+                            <li>متن واضح و خوانا</li>
+                            <li>تصاویر باکیفیت</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>تجربه کاربری</h4>
+                        <ul>
+                            <li>ارائه چت‌بات / پشتیبانی زنده</li>
+                            <li>فرایند خرید ساده، بدون اجبار ثبت‌نام</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>نقش اعتماد در تجارت الکترونیک</h4>
+                <p>اعتماد مهم‌ترین عامل خرید اینترنتی است. راه‌های ایجاد اعتماد:</p>
+                <ul style="margin-top: 1rem; padding-right: 2rem;">
+                    <li>سیستم امتیازدهی</li>
+                    <li>نظرات کاربران</li>
+                    <li>شفافیت در اطلاعات</li>
+                    <li>ضمانت بازگشت کالا</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>نتیجه‌گیری</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>اهداف مشترک</h4>
+                        <p>تجارت الکترونیک همان اهداف بازاریابی سنتی را دارد: جذب و حفظ مشتری</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>فرصت‌های جدید</h4>
+                        <p>فناوری اطلاعات فرصت‌های جدیدی ایجاد کرده است</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>رابطه قوی‌تر</h4>
+                        <p>تجارت الکترونیک باعث تقویت رابطه مشتری و فروشنده می‌شود</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>شناخت مشتری</h4>
+                        <p>فروشنده باید شناخت دقیقی از مشتری داشته باشد. هرچه شناخت بیشتر باشد، موفقیت بیشتر خواهد بود</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>سیستم‌های اطلاعات مدیریت (MIS)</p>
+            <p>علی آزادی و نیما نجف پور | استاد: سید محمد امین احمدی</p>
+            <p style="margin-top: 1rem; opacity: 0.6;">© 2024 - تمامی حقوق محفوظ است</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Only observe fade-in elements that don't have force-visible
+        document.querySelectorAll('.fade-in:not(.force-visible)').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Force visibility for target section
+                    if (target.classList.contains('fade-in')) {
+                        target.classList.add('force-visible', 'visible');
+                    }
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    const navMenu = document.getElementById('nav-menu');
+                    if (navMenu) {
+                        navMenu.classList.remove('active');
+                        const menuToggle = document.querySelector('.menu-toggle');
+                        if (menuToggle) {
+                            menuToggle.textContent = '☰';
+                        }
+                    }
+                }
+            });
+        });
+
+        // Ensure sections are visible on page load if they're in the URL hash
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                const target = document.querySelector(window.location.hash);
+                if (target && target.classList.contains('fade-in')) {
+                    target.classList.add('force-visible', 'visible');
+                    setTimeout(() => {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 100);
+                }
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                // Change icon
+                this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const isClickInsideNav = navMenu.contains(event.target) || menuToggle.contains(event.target);
+                if (!isClickInsideNav && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    menuToggle.textContent = '☰';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
